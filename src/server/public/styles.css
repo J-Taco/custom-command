@@ -1,0 +1,229 @@
+body {
+    --bg: #0d1117;
+    --surface: #161b27;
+    --card-bg: #1c2333;
+    --card-hover: #222940;
+    --accent: #3665b6;
+    --foreground: #e4dfdf;
+    --subtle: #8b949e;
+    --border: #ffffff15;
+
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--foreground);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segeo UI', sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--surface);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+header button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+header button:hover {
+    opacity: 0.75;
+    border-radius: 12px;
+}
+
+#commands-grid {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.command-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.command-card:hover {
+    background-color: var(--card-hover);
+}
+
+.command-card h2 {
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.command-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--subtle);
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 500px;
+    max-width: 90%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-header h2 {
+    margin: 0;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    color: var(--subtle);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal h3 {
+    padding-top: 4px;
+}
+
+#modal-delete {
+    margin-top: 24px;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#modal-deelte:hover {
+    opacity: 0.75;
+}
+
+.modal input {
+    width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--foreground);
+    font-size: 14px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.modal input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.modal label {
+    display: block;
+    font-size: 13px;
+    color: var(--subtle);
+    margin-bottom: 6px;
+}
+
+.modal-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.modal-section-header h3 {
+    margin: 0;
+}
+
+.modal-section-header button {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+#add-submit {
+    margin-top: 24px;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+#add-submit:hover {
+    opacity: 0.75;
+}
+
+.arg-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.modal select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--foreground);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal select:focus {
+    outline: none;
+    border-color: var(--accent);
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Command Control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>CustomCMD</h1>
+        <button id="add-cmd">Add Command</button>
+    </header>
+
+    <div id="commands-grid"></div>
+
+    <div id="info-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-name"></h2>
+                <button id="modal-close">x</button>
+            </div>
+
+            <p id="modal-description"></p>
+
+            <h3>Arguments</h3>
+            <div id="modal-arguments"></div>
+
+            <h3>Steps</h3>
+            <div id="modal-steps"></div>
+
+            <button id="modal-delete">Delete Command</button>
+        </div>
+    </div>
+
+    <div id="add-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add Command</h2>
+                <button id="add-modal-close">x</button>
+            </div>
+
+            <label>Name</label>
+            <input id="add-name" type="text" placeholder="e.g. new-flutter" />
+
+            <label>Description</label>
+            <input id="add-description" type="text" placeholder="What does this command do?" />
+
+            <div class="modal-section-header">
+                <h3>Steps</h3>
+                <button id="add-step-btn">+ Add Step</button>
+            </div>
+            <div id="add-steps"></div>
+
+            <div class="modal-section-header">
+                <h3>Arguments</h3>
+                <button id="add-arg-btn">+ Add Argument</button>
+            </div>
+            <div id="add-arguments"></div>
+
+            <button id="add-submit">Save Command</button>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

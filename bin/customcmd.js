@@ -9,5 +9,6 @@ import '../src/commands/list.js';
 import '../src/commands/remove.js';
 import '../src/commands/run.js';
 import '../src/commands/info.js';
+import '../src/commands/ui.js';
 
 program.parse(process.argv);
