@@ -40,6 +40,23 @@ export function save(name, command) {
     }
 }
 
+export function update(name, command) {
+    const exists = getOne(name);
+    if (exists == null || exists == undefined) {
+        return 'not-exist';
+    } else {
+        try {
+            let commandsJson = getAll();
+            const updated = { ...exists, ...command };
+            commandsJson[name] = updated;
+            fs.writeFileSync(dataPath, JSON.stringify(commandsJson));
+            return 'success';
+        } catch (e) {
+            return 'failed';
+        }
+    }
+}
+
 export function remove(name) {
     try {
         let commandsJson = getAll();

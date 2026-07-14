@@ -10,4 +10,4 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', router);
-app.listen(PORT, () => console.log(`UI running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`UI running at http://localhost:${PORT}\nPress q to stop the server\n`));

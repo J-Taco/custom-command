@@ -1,9 +1,15 @@
 const modal = document.getElementById('info-modal');
 const addModal = document.getElementById('add-modal');
+let editingCommand = null;
 
 function renderCommands(commands) {
     const grid = document.getElementById("commands-grid");
     grid.innerHTML = '';
+
+    if (Object.keys(commands).length == 0) {
+        grid.innerHTML = "<h1>You have no commands.</h1>";
+        return;
+    }
 
     Object.keys(commands).forEach(key => {
         const command = commands[key];
@@ -37,13 +43,70 @@ function renderCommands(commands) {
                 stepsDiv.innerHTML += `<p> ${index + 1}. ${step}</p> `;
             });
 
-            document.getElementById('modal-delete').addEventListener('click', async () => {
+            document.getElementById('modal-edit').onclick = async () => {
+                editingCommand = key;
+
+                document.getElementById('add-name').value = key;
+                document.getElementById('add-description').value = command.description;
+
+                document.getElementById('add-steps').innerHTML = '';
+                document.getElementById('add-arguments').innerHTML = '';
+
+                command.commands.forEach(step => {
+                    const stepsDiv = document.getElementById('add-steps');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.placeholder = 'e.g. flutter create ${bundle-id}';
+                    input.className = 'step-input';
+                    input.value = step;
+                    stepsDiv.appendChild(input);
+                });
+
+                command.arguments.forEach(arg => {
+                    const argsDiv = document.getElementById('add-arguments');
+
+                    const row = document.createElement('div');
+                    row.className = 'arg-row';
+
+                    const nameInput = document.createElement('input');
+                    nameInput.type = 'text';
+                    nameInput.className = 'arg-name';
+                    nameInput.value = arg.name;
+
+                    const select = document.createElement('select');
+                    select.className = 'arg-type';
+                    select.innerHTML = `
+                    <option value="positional">positional</option>
+                    <option value="named">named</option>
+                    <option value="flag">flag</option>`;
+                    select.value = arg.type;
+
+                    const defaultInput = document.createElement('input');
+                    defaultInput.type = 'text';
+                    defaultInput.placeholder = 'default value';
+                    defaultInput.className = 'arg-default';
+                    defaultInput.value = arg.default ?? '';
+
+                    row.append(nameInput);
+                    row.append(select);
+                    row.append(defaultInput);
+                    argsDiv.append(row);
+                })
+
+                document.querySelector('#add-modal .modal-header h2').textContent = 'Edit Command';
+                document.getElementById('add-name').disabled = true;
+
+                modal.classList.remove('active');
+                addModal.classList.add('active');
+            }
+
+            document.getElementById('modal-delete').onclick = async () => {
                 if (confirm('Are you sure you want to delete this command? It CANNOT be undone. ')) {
                     await fetch(`/api/commands/${key}`, { method: 'DELETE' });
                     modal.classList.remove('active');
                     await renderCommands(await getCommands());
                 }
-            });
+            };
 
             document.getElementById('info-modal').classList.add('active');
         });
@@ -87,6 +150,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     addModalClose.addEventListener('click', () => {
         addModal.classList.remove('active');
+        document.querySelector('#add-modal .modal-header h2').textContent = "Add Command";
+        document.getElementById('add-name').disabled = false;
+        editingCommand = null;
     });
 
     document.getElementById('add-step-btn').addEventListener('click', () => {
@@ -130,10 +196,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById('add-submit').addEventListener('click', async () => {
         const name = document.getElementById('add-name').value;
-        const description = document.getElementById('add-description').value;
-
+        if (!name) {
+            alert('Please enter a command name');
+            return;
+        }
         const stepInputs = document.querySelectorAll('.step-input');
+        if (stepInputs.length == 0) {
+            alert('Please add at least one step');
+            return;
+        }
+        document.getElementById('add-name').value = '';
+        const description = document.getElementById('add-description').value;
+        document.getElementById('add-description').value = '';
+
         const commands = Array.from(stepInputs).map(input => input.value);
+        document.getElementById('add-steps').innerHTML = '';
 
         const argRows = document.querySelectorAll('.arg-row');
         const args = Array.from(argRows).map(row => {
@@ -143,14 +220,36 @@ document.addEventListener("DOMContentLoaded", async () => {
                 default: row.querySelector('.arg-default').value
             }
         });
+        document.getElementById('add-arguments').innerHTML = '';
 
-        await fetch('/api/commands', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, description, commands, arguments: args })
-        });
+        if (editingCommand) {
+            await fetch(`/api/commands/${editingCommand}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, description, commands, arguments: args })
+            });
+            editingCommand = null;
+        } else {
+            await fetch('/api/commands', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, description, commands, arguments: args })
+            });
+        }
 
         addModal.classList.remove('active');
+        document.querySelector('#add-modal .modal-header h2').textContent = "Add Command";
+        document.getElementById('add-name').disabled = false;
         await renderCommands(await getCommands());
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key == 'Escape') {
+            modal.classList.remove('active');
+            addModal.classList.remove('active');
+            document.querySelector('#add-modal .modal-header h2').textContent = "Add Command";
+            document.getElementById('add-name').disabled = false;
+            editingCommand = null;
+        }
     });
 });

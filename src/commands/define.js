@@ -17,15 +17,15 @@ program
         const saved = await save(name, object);
 
         if (saved == 'exists') {
-            console.log(`Error: ${name} is already a registered command! `);
+            console.error(`Error: ${name} is already a registered command! `);
         } else if (saved == 'success') {
             console.log(`Command "${name}" saved successfully.`);
         } else {
-            console.log(`An unknown error occured when creating ${name}. Try again. `);
+            console.error(`An unknown error occured when creating ${name}. Try again. `);
         }
     });
 
-function argumentFormat(argString) {
+export function argumentFormat(argString) {
     const parts = argString.split(':');
 
     if (parts[1] == 'named') {
