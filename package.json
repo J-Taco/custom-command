@@ -1,6 +1,6 @@
 {
   "name": "@jtaco/customcmd",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An easy to use custom terminal command creator that can do multiple steps with one command",
   "license": "ISC",
   "author": "JTaco",
