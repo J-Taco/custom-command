@@ -5,7 +5,7 @@ An easy to use custom terminal command creator that can run multiple steps with 
 
 **Via npm:**
 
-    npm install -g customcmd
+    npm install -g @jtaco/customcmd
 
 **Via git:**
 
